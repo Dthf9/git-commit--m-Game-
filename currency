@@ -1,0 +1,47 @@
+import requests
+
+
+def get_exchange_rate():
+    url = 'https://www.cbr-xml-daily.ru/daily_json.js'
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        dollar_rate = data['Valute']['USD']['Value']
+        return dollar_rate
+    except requests.exceptions.RequestException as e:
+        print(f"Ошибка при получении данных: {e}")
+        return None
+
+
+def convert_rub_to_usd(rub_amount, exchange_rate):
+    return rub_amount / exchange_rate
+
+
+def main():
+    print("Конвертер валют: Рубли в Доллары")
+
+    exchange_rate = get_exchange_rate()
+    if exchange_rate is None:
+        print("Не удалось получить курс валют. Завершение работы.")
+        return
+
+    print(f"Актуальный курс доллара: {exchange_rate} руб.")
+
+    while True:
+        rub_input = input("Введите сумму в рублях (или 'exit' для выхода): ")
+        if rub_input.lower() == 'exit':
+            print("Выход из программы.")
+            break
+
+        try:
+            rub_amount = float(rub_input)
+            usd_amount = convert_rub_to_usd(rub_amount, exchange_rate)
+            print(f"{rub_amount} рублей = {usd_amount:.2f} долларов")
+        except ValueError:
+            print("Пожалуйста, введите корректное число.")
+
+
+if __name__ == "__main__":
+    main()
