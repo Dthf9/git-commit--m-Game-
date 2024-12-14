@@ -24,13 +24,13 @@ def main():
 
     exchange_rate = get_exchange_rate()
     if exchange_rate is None:
-        print("Не удалось получить курс валют. Завершение работы.")
+        print("Не удалось получить курс валют.")
         return
 
     print(f"Актуальный курс доллара: {exchange_rate} руб.")
 
     while True:
-        rub_input = input("Введите сумму в рублях (или 'exit' для выхода): ")
+        rub_input = input("Введите сумму в рублях: ")
         if rub_input.lower() == 'exit':
             print("Выход из программы.")
             break
